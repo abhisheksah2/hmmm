@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hinglish Translator - English Idioms to Hindi Proverbs</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <span>Hinglish Translator</span>
+        </div>
+        <ul class="nav-menu">
+          <li><a href="#translator" class="nav-link">Translator</a></li>
+          <li><a href="#browse" class="nav-link">Browse</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Hinglish Translator</h1>
+        <p>
+          Transform English Idioms into Beautiful Hindi Proverbs (Kahawaten)
+        </p>
+        <div class="hero-buttons">
+          <button
+            class="btn btn-primary"
+            onclick="document.getElementById('translator').scrollIntoView({behavior: 'smooth'})"
+          >
+            Start Translating
+          </button>
+          <button class="btn btn-secondary" onclick="getRandomIdiom()">
+            Surprise Me!
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Translator Section -->
+    <section id="translator" class="translator-section">
+      <div class="container">
+        <h2>Translate English Idioms</h2>
+        <p class="section-subtitle">
+          Search for an English idiom and discover its Hindi equivalent
+        </p>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+          <div class="search-box">
+            <input
+              type="text"
+              id="searchInput"
+              class="search-input"
+              placeholder="Enter English idiom (e.g., 'break the ice')..."
+              autocomplete="off"
+            />
+            <button class="search-btn" onclick="translateIdiom()">
+              🔍 Search
+            </button>
+          </div>
+          <div
+            id="suggestions"
+            class="suggestions-dropdown"
+            style="display: none"
+          ></div>
+        </div>
+
+        <!-- Translation Result -->
+        <div
+          id="resultContainer"
+          class="result-container"
+          style="display: none"
+        >
+          <div class="result-card">
+            <div class="result-header">
+              <h3 id="englishIdiom" class="english-text"></h3>
+              <span class="match-indicator" id="matchIndicator"></span>
+            </div>
+
+            <div class="translation-content">
+              <!-- Hindi Translation -->
+              <div class="translation-block">
+                <div class="block-header">
+                  <h4>🇮🇳 Hindi Translation</h4>
+                  <button
+                    class="action-btn"
+                    onclick="pronounceHindi()"
+                    title="Pronounce"
+                  >
+                    🔊
+                  </button>
+                </div>
+                <div id="hindiDevanagari" class="hindi-devanagari"></div>
+                <div id="hindiRomanized" class="hindi-romanized"></div>
+              </div>
+
+              <!-- Meaning -->
+              <div class="translation-block">
+                <div class="block-header">
+                  <h4>📖 Meaning</h4>
+                </div>
+                <div
+                  id="englishMeaning"
+                  class="meaning-text english-meaning"
+                ></div>
+                <div id="hindiMeaning" class="meaning-text hindi-meaning"></div>
+              </div>
+
+              <!-- Category & Usage -->
+              <div class="translation-block">
+                <div class="block-header">
+                  <h4>🏷️ Category & Usage</h4>
+                </div>
+                <div id="category" class="category-badge"></div>
+                <div id="usage" class="usage-text"></div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="action-btn-large" onclick="copyTranslation()">
+                📋 Copy Hindi
+              </button>
+              <button class="action-btn-large" onclick="shareTranslation()">
+                🔗 Share
+              </button>
+              <button class="action-btn-large" onclick="addToFavorites()">
+                ❤️ Favorite
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Result Message -->
+        <div
+          id="noResultContainer"
+          class="no-result-container"
+          style="display: none"
+        >
+          <div class="no-result-card">
+            <p>❌ Idiom not found</p>
+            <p class="no-result-text">
+              Try searching for another idiom or browse our collection below.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Browse Section -->
+    <section id="browse" class="browse-section">
+      <div class="container">
+        <h2>Browse Our Collection</h2>
+        <p class="section-subtitle">Explore idioms by category</p>
+
+        <!-- Category Filter -->
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterByCategory('all')">
+            All
+          </button>
+          <button class="filter-btn" onclick="filterByCategory('food')">
+            Food
+          </button>
+          <button class="filter-btn" onclick="filterByCategory('nature')">
+            Nature
+          </button>
+          <button class="filter-btn" onclick="filterByCategory('action')">
+            Action
+          </button>
+          <button class="filter-btn" onclick="filterByCategory('emotion')">
+            Emotion
+          </button>
+          <button class="filter-btn" onclick="filterByCategory('quotes')">
+            Quotes
+          </button>
+        </div>
+
+        <!-- Idioms Grid -->
+        <div id="idiomsGrid" class="idioms-grid"></div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <h2>About This Project</h2>
+        <div class="about-content">
+          <div class="about-card">
+            <h3>🎯 Purpose</h3>
+            <p>
+              The Hinglish Translator bridges the gap between English and Hindi
+              languages by translating common English idioms into their
+              equivalent Hindi proverbs (Kahawaten). This helps learners
+              understand cultural nuances and language expressions.
+            </p>
+          </div>
+          <div class="about-card">
+            <h3>📚 What is Hinglish?</h3>
+            <p>
+              Hinglish is a blend of Hindi and English, commonly used in modern
+              India. This tool helps you appreciate the richness of both
+              languages while making translations more accessible and
+              meaningful.
+            </p>
+          </div>
+          <div class="about-card">
+            <h3>💡 How to Use</h3>
+            <p>
+              Simply type an English idiom in the search box, click search, and
+              instantly see its Hindi equivalent along with meanings and usage
+              examples. You can also browse by category or get random idioms.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <h2>Get In Touch</h2>
+        <p class="section-subtitle">Have suggestions or want to contribute?</p>
+        <div class="contact-form">
+          <input type="email" placeholder="Your Email" class="form-input" />
+          <textarea
+            placeholder="Your Message"
+            class="form-input form-textarea"
+          ></textarea>
+          <button
+            class="btn btn-primary"
+            onclick="showToast('Message sent! Thank you for your feedback.')"
+          >
+            Send Message
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2026 Hinglish Translator. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+  </body>
+</html>
